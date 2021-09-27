@@ -1,0 +1,41 @@
+{
+    "name": "baoweb/helpers",
+    "description": ":package_description",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Martin Kryl",
+            "email": "martin@baoweb.cz",
+            "homepage": "https://baoweb.cz"
+        }
+    ],
+    "homepage": "https://github.com/baoweb/helpers",
+    "keywords": ["Laravel", "Helpers"],
+    "require": {
+        "illuminate/support": "~7|~8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~9.0",
+        "orchestra/testbench": "~5|~6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Baoweb\\Helpers\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Baoweb\\Helpers\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Baoweb\\Helpers\\HelpersServiceProvider"
+            ],
+            "aliases": {
+                "Helpers": "Baoweb\\Helpers\\Facades\\Helpers"
+            }
+        }
+    }
+}
