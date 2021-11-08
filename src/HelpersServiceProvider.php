@@ -3,6 +3,7 @@
 namespace Baoweb\Helpers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Builder;
 
 class HelpersServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,50 @@ class HelpersServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->bootForConsole();
         }
+
+
+        Builder::macro('search', function ($fields, $string) {
+
+            if(is_array($fields) && $string) {
+                $firstIteration = true;
+
+                foreach($fields as $field) {
+                    if($firstIteration) {
+                        $this->where($field, 'like', '%'.$string.'%');
+                    } else {
+                        $this->orWhere($field, 'like', '%'.$string.'%');
+                    }
+
+                    $firstIteration = false;
+                }
+
+                return $this;
+            }
+
+            if($string) {
+                return $this->where($fields, 'like', '%'.$string.'%');
+            }
+
+            return $this;
+        });
+
+        Builder::macro('toCsv', function () {
+            $results = $this->get();
+
+            if ($results->count() < 1) return;
+
+            $titles = implode(',', array_keys((array) $results->first()->getAttributes()));
+
+            $values = $results->map(function ($result) {
+                return implode(',', collect($result->getAttributes())->map(function ($thing) {
+                    return '"'.$thing.'"';
+                })->toArray());
+            });
+
+            $values->prepend($titles);
+
+            return $values->implode("\n");
+        });
     }
 
     /**
