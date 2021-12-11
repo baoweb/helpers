@@ -17,6 +17,8 @@ trait AllowsCzechNumbers
     {
         if (in_array($key, $this->getCzechNumericFields(), true)) {
             $value = str_replace(',', '.', $value);
+
+            $value = (float) $value;
         }
 
         return parent::setAttribute($key, $value);

@@ -28,17 +28,19 @@ class HelpersServiceProvider extends ServiceProvider
         Builder::macro('search', function ($fields, $string) {
 
             if(is_array($fields) && $string) {
-                $firstIteration = true;
+                $this->where(function($query) use ($fields, $string) {
+                    $firstIteration = true;
 
-                foreach($fields as $field) {
-                    if($firstIteration) {
-                        $this->where($field, 'like', '%'.$string.'%');
-                    } else {
-                        $this->orWhere($field, 'like', '%'.$string.'%');
+                    foreach($fields as $field) {
+                        if($firstIteration) {
+                            $query->where($field, 'like', '%'.$string.'%');
+                        } else {
+                            $query->orWhere($field, 'like', '%'.$string.'%');
+                        }
+
+                        $firstIteration = false;
                     }
-
-                    $firstIteration = false;
-                }
+                });
 
                 return $this;
             }
