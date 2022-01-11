@@ -27,6 +27,10 @@ class CzechNumericNonNegative implements Rule
     {
         $value = str_replace(',', '.', $value);
 
+        if($value === '-0') {
+            return false;
+        }
+
         return is_numeric($value) && $value >= 0;
     }
 
