@@ -41,6 +41,6 @@ class CzechNumericNonNegative implements Rule
      */
     public function message()
     {
-        return 'The :attribute price must be a non-negative number with decimal dot or decimal comma.';
+        return __('The :attribute price must be a number with decimal dot or decimal comma.');
     }
 }
