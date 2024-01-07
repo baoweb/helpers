@@ -80,9 +80,12 @@ class HelpersServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/helpers.php', 'helpers');
 
-        // Register the service the package provides.
         $this->app->singleton('helpers', function ($app) {
             return new Helpers;
+        });
+
+        $this->app->singleton('dateHelpers', function ($app) {
+            return new DateHelpers;
         });
     }
 
