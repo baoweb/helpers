@@ -26,4 +26,16 @@ class DateHelpers
 
         return $weekdays;
     }
+
+    public function getDaysInMonthAsCarbonInstances($year, $month): array {
+        $carbonDate = Carbon::create($year, $month, 1);
+        $daysInMonth = $carbonDate->daysInMonth;
+
+        $carbonDays = [];
+        for ($day = 1; $day <= $daysInMonth; $day++) {
+            $carbonDays[] = Carbon::create($year, $month, $day);
+        }
+
+        return $carbonDays;
+    }
 }
